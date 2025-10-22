@@ -43,7 +43,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(clients.update(props.klijent.id).url, {
+    form.put(clients.update(props.klijent.id).url, {
         preserveScroll: true,
         onSuccess: () => {
             console.log('Client updated successfully');
