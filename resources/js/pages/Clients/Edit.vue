@@ -40,6 +40,10 @@ const form = useForm({
     last_name: props.klijent.last_name,
     email: props.klijent.email,
     phone: props.klijent.phone,
+    date_of_birth: props.klijent.date_of_birth,
+    gender: props.klijent.gender,
+    supervisor: props.klijent.supervisor,
+    association: props.klijent.association,
 });
 
 const submit = () => {
@@ -73,7 +77,7 @@ const submit = () => {
                             First Name
                         </Label>
                         <Input
-                            class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                            class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
                             id="first_name"
                             name="first_name"
                             type="text"
@@ -89,7 +93,7 @@ const submit = () => {
                             Last Name
                         </Label>
                         <Input
-                            class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                            class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
                             id="last_name"
                             name="last_name"
                             type="text"
@@ -106,12 +110,93 @@ const submit = () => {
                         Email
                     </Label>
                     <Input
-                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
                         id="email"
                         name="email"
-                        type="text"
+                        type="email"
                         placeholder="Email address"
                         v-model="form.email"
+                    />
+                </div>
+                <div class="my-4 w-1/2">
+                    <Label
+                        class="m-2 block text-sm font-bold text-gray-700"
+                        for="date_of_birth"
+                    >
+                        Date of Birth
+                    </Label>
+                    <input
+                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
+                        id="date_of_birth"
+                        name="date_of_birth"
+                        type="date"
+                        placeholder="Date of Birth"
+                        v-model="form.date_of_birth"
+                    />
+                </div>
+                <div class="my-4 w-1/2">
+                    <Label
+                        class="m-2 block text-sm font-bold text-gray-700"
+                        for="phone"
+                    >
+                        Phone Number
+                    </Label>
+                    <Input
+                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
+                        id="phone"
+                        name="phone"
+                        type="text"
+                        placeholder="Phone number"
+                        v-model="form.phone"
+                    />
+                </div>
+                <div class="my-4 w-1/2">
+                    <Label
+                        class="m-2 block text-sm font-bold text-gray-700"
+                        for="gender"
+                    >
+                        Gender
+                    </Label>
+                    <Input
+                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
+                        id="gender"
+                        name="gender"
+                        type="text"
+                        placeholder="Gender"
+                        v-model="form.gender"
+                    />
+                </div>
+
+                <div class="my-4 w-1/2">
+                    <Label
+                        class="m-2 block text-sm font-bold text-gray-700"
+                        for="supervisor"
+                    >
+                        Supervisor
+                    </Label>
+                    <Input
+                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
+                        id="supervisor"
+                        name="supervisor"
+                        type="text"
+                        placeholder="supervisor"
+                        v-model="form.supervisor"
+                    />
+                </div>
+                <div class="my-4 w-1/2">
+                    <Label
+                        class="m-2 block text-sm font-bold text-gray-700"
+                        for="association"
+                    >
+                        Association
+                    </Label>
+                    <Input
+                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
+                        id="association"
+                        name="association"
+                        type="text"
+                        placeholder="association"
+                        v-model="form.association"
                     />
                 </div>
 
@@ -124,17 +209,6 @@ const submit = () => {
                     </button>
                 </div>
             </form>
-            <div
-                class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
-            >
-                {{ klijent.first_name }} {{ klijent.last_name }} <br />
-                {{ klijent.email }} <br />
-                {{ klijent.phone }} <br />
-                {{ klijent.date_of_birth }} <br />
-                {{ klijent.gender }} <br />
-                {{ klijent.supervisor }} <br />
-                {{ klijent.association }} <br />
-            </div>
         </div>
     </AppLayout>
 </template>

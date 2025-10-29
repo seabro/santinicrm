@@ -78,7 +78,13 @@ class ClientController extends Controller
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:clients,email',
+            'email' => 'required|email|max:255|unique:clients,email,' . $client->id,
+            'phone' => 'nullable|string|max:20',
+            'date_of_birth' => 'nullable|date',
+            'gender' => 'nullable|string|max:50',
+            'supervisor' => 'nullable|string|max:255',
+            'association' => 'nullable|string|max:255',
+
         ]);
 
         $client->update($validated);

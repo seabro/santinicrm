@@ -20,15 +20,15 @@ interface Client {
 }
 
 defineProps<{
-    klijent: Client
+    klijent: Client;
 }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
-        {
+    {
         title: 'Clients',
         href: clients.index().url,
     },
-            {
+    {
         title: 'Details',
         href: clients.index().url,
     },
@@ -39,24 +39,24 @@ const breadcrumbs: BreadcrumbItem[] = [
     <Head title="Client Detail Page" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-
-        <header>
-            <Link :href="`/clients/${klijent.id}/edit`">edit</Link>
+        <header class="mb-4 flex items-center justify-end p-4">
+            <Link :href="`/clients/${klijent.id}/edit`"
+                ><Button>Edit Client</Button></Link
+            >
         </header>
 
-        <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-
-
+        <div
+            class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
+        >
             <h2>Detalji klijenta</h2>
 
-             {{ klijent.first_name }} {{ klijent.last_name }} <br>
-             {{ klijent.email }} <br>
-             {{ klijent.phone }} <br>
-                {{ klijent.date_of_birth }} <br>
-                {{klijent.gender}} <br>
-                {{klijent.supervisor}} <br>
-                {{klijent.association}} <br>
-                    
+            {{ klijent.first_name }} {{ klijent.last_name }} <br />
+            {{ klijent.email }} <br />
+            {{ klijent.phone }} <br />
+            {{ klijent.date_of_birth }} <br />
+            {{ klijent.gender }} <br />
+            {{ klijent.supervisor }} <br />
+            {{ klijent.association }} <br />
         </div>
     </AppLayout>
 </template>
