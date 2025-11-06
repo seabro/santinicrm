@@ -1,6 +1,21 @@
 <script setup lang="ts">
+import {
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
@@ -151,20 +166,36 @@ const submit = () => {
                     />
                 </div>
                 <div class="my-4 w-1/2">
-                    <Label
-                        class="m-2 block text-sm font-bold text-gray-700"
-                        for="gender"
-                    >
-                        Gender
-                    </Label>
-                    <Input
-                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
-                        id="gender"
+                    <FormField
+                        v-slot="{ componentField }"
                         name="gender"
-                        type="text"
-                        placeholder="Gender"
                         v-model="form.gender"
-                    />
+                    >
+                        <FormItem>
+                            <FormLabel>Gender</FormLabel>
+
+                            <Select v-bind="componentField">
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue
+                                            placeholder="Select a gender"
+                                        />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Gender</SelectLabel>
+                                        <SelectItem value="male"
+                                            >Male</SelectItem
+                                        >
+                                        <SelectItem value="female"
+                                            >Female</SelectItem
+                                        >
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </FormItem>
+                    </FormField>
                 </div>
 
                 <div class="my-4 w-1/2">
