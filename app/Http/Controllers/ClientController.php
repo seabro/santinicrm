@@ -14,7 +14,7 @@ class ClientController extends Controller
     {
         // $klijenti = DB::table('clients')->get();
         // $klijenti = Client::all()->get();
-        $klijenti = Client::all();
+        $klijenti = Auth::user()->clients;
 
         return Inertia::render('Clients/Index', [
             'klijenti' => $klijenti,

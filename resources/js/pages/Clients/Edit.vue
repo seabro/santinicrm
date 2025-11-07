@@ -1,21 +1,8 @@
 <script setup lang="ts">
-import {
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-} from '@/components/ui/form';
+import { FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
@@ -77,119 +64,47 @@ const submit = () => {
     <Head title="Client Detail Page" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div
-            class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
-        >
+        <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
             <h2>Editiraj klijenta</h2>
             <form @submit.prevent="submit" :options="{ preserveScroll: true }">
                 <div class="flex flex-row gap-4">
                     <div class="mb-4">
-                        <Label
-                            class="mb-2 block text-sm font-bold text-gray-700"
-                            for="first_name"
-                        >
-                            First Name
-                        </Label>
-                        <Input
-                            class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
-                            id="first_name"
-                            name="first_name"
-                            type="text"
-                            placeholder="First name"
-                            v-model="form.first_name"
-                        />
+                        <Label class="mb-2 block text-sm font-bold text-gray-700" for="first_name"> First Name </Label>
+                        <Input class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none" id="first_name" name="first_name" type="text" placeholder="First name" v-model="form.first_name" />
                     </div>
                     <div class="mb-4">
-                        <Label
-                            class="mb-2 block text-sm font-bold text-gray-700"
-                            for="last_name"
-                        >
-                            Last Name
-                        </Label>
-                        <Input
-                            class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
-                            id="last_name"
-                            name="last_name"
-                            type="text"
-                            placeholder="Last name"
-                            v-model="form.last_name"
-                        />
+                        <Label class="mb-2 block text-sm font-bold text-gray-700" for="last_name"> Last Name </Label>
+                        <Input class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none" id="last_name" name="last_name" type="text" placeholder="Last name" v-model="form.last_name" />
                     </div>
                 </div>
                 <div class="my-4 w-1/2">
-                    <Label
-                        class="m-2 block text-sm font-bold text-gray-700"
-                        for="email"
-                    >
-                        Email
-                    </Label>
-                    <Input
-                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
-                        id="email"
-                        name="email"
-                        type="email"
-                        placeholder="Email address"
-                        v-model="form.email"
-                    />
+                    <Label class="m-2 block text-sm font-bold text-gray-700" for="email"> Email </Label>
+                    <Input class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none" id="email" name="email" type="email" placeholder="Email address" v-model="form.email" />
                 </div>
                 <div class="my-4 w-1/2">
-                    <Label
-                        class="m-2 block text-sm font-bold text-gray-700"
-                        for="date_of_birth"
-                    >
-                        Date of Birth
-                    </Label>
-                    <input
-                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
-                        id="date_of_birth_input"
-                        name="date_of_birth_input"
-                        type="date"
-                        placeholder="Date of Birth"
-                        v-model="form.date_of_birth"
-                    />
+                    <Label class="m-2 block text-sm font-bold text-gray-700" for="date_of_birth"> Date of Birth </Label>
+                    <input class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none" id="date_of_birth_input" name="date_of_birth_input" type="date" placeholder="Date of Birth" v-model="form.date_of_birth" />
                 </div>
                 <div class="my-4 w-1/2">
-                    <Label
-                        class="m-2 block text-sm font-bold text-gray-700"
-                        for="phone"
-                    >
-                        Phone Number
-                    </Label>
-                    <Input
-                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
-                        id="phone"
-                        name="phone"
-                        type="text"
-                        placeholder="Phone number"
-                        v-model="form.phone"
-                    />
+                    <Label class="m-2 block text-sm font-bold text-gray-700" for="phone"> Phone Number </Label>
+                    <Input class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none" id="phone" name="phone" type="text" placeholder="Phone number" v-model="form.phone" />
                 </div>
                 <div class="my-4 w-1/2">
-                    <FormField
-                        v-slot="{ componentField }"
-                        name="gender"
-                        v-model="form.gender"
-                    >
+                    <FormField v-slot="{ componentField }" name="gender" v-model="form.gender">
                         <FormItem>
                             <FormLabel>Gender</FormLabel>
 
                             <Select v-bind="componentField">
                                 <FormControl>
                                     <SelectTrigger>
-                                        <SelectValue
-                                            placeholder="Select a gender"
-                                        />
+                                        <SelectValue placeholder="Select a gender" />
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
                                     <SelectGroup>
                                         <SelectLabel>Gender</SelectLabel>
-                                        <SelectItem value="male"
-                                            >Male</SelectItem
-                                        >
-                                        <SelectItem value="female"
-                                            >Female</SelectItem
-                                        >
+                                        <SelectItem value="male">Male</SelectItem>
+                                        <SelectItem value="female">Female</SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
@@ -198,29 +113,12 @@ const submit = () => {
                 </div>
 
                 <div class="my-4 w-1/2">
-                    <Label
-                        class="m-2 block text-sm font-bold text-gray-700"
-                        for="association"
-                    >
-                        Association
-                    </Label>
-                    <Input
-                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
-                        id="association"
-                        name="association"
-                        type="text"
-                        placeholder="association"
-                        v-model="form.association"
-                    />
+                    <Label class="m-2 block text-sm font-bold text-gray-700" for="association"> Association </Label>
+                    <Input class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none" id="association" name="association" type="text" placeholder="association" v-model="form.association" />
                 </div>
 
                 <div class="my-4">
-                    <button
-                        type="submit"
-                        class="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
-                    >
-                        Save
-                    </button>
+                    <button type="submit" class="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none">Save</button>
                 </div>
             </form>
         </div>
