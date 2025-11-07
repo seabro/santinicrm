@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ClientController;
+
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -18,6 +20,9 @@ Route::get('/clients/{id}', [ClientController::class, 'detail'])->middleware(['a
 Route::get('/clients/{id}/edit', [ClientController::class, 'edit'])->middleware(['auth', 'verified'])->name('clients.edit');
 Route::post('/clients/store', [ClientController::class, 'store'])->middleware(['auth', 'verified'])->name('clients.store');
 Route::put('/clients/{id}/update', [ClientController::class, 'update'])->middleware(['auth', 'verified'])->name('clients.update');
+
+
+Route::get('/appointments', [AppointmentController::class, 'index'])->middleware(['auth', 'verified'])->name('appointments.index');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

@@ -57,7 +57,6 @@ const form = useForm({
     phone: props.klijent.phone,
     date_of_birth: props.klijent.date_of_birth,
     gender: props.klijent.gender,
-    supervisor: props.klijent.supervisor,
     association: props.klijent.association,
 });
 
@@ -142,8 +141,8 @@ const submit = () => {
                     </Label>
                     <input
                         class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
-                        id="date_of_birth"
-                        name="date_of_birth"
+                        id="date_of_birth_input"
+                        name="date_of_birth_input"
                         type="date"
                         placeholder="Date of Birth"
                         v-model="form.date_of_birth"
@@ -198,22 +197,6 @@ const submit = () => {
                     </FormField>
                 </div>
 
-                <div class="my-4 w-1/2">
-                    <Label
-                        class="m-2 block text-sm font-bold text-gray-700"
-                        for="supervisor"
-                    >
-                        Supervisor
-                    </Label>
-                    <Input
-                        class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight shadow focus:outline-none"
-                        id="supervisor"
-                        name="supervisor"
-                        type="text"
-                        placeholder="supervisor"
-                        v-model="form.supervisor"
-                    />
-                </div>
                 <div class="my-4 w-1/2">
                     <Label
                         class="m-2 block text-sm font-bold text-gray-700"

@@ -7,3 +7,5 @@ npm install
 
 php artisan key:generate
 php artisan migrate --seed
+
+# https://zako.dev/laravel-vue-and-full-calendar-integration/
