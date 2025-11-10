@@ -7,18 +7,21 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 
 class AppointmentController extends Controller
 {
     public function index()
     {
         // $klijenti = DB::table('clients')->get();
-        $appointments = Appointment::all();
+        //$appointments = Appointment::where('auth_user_id', Auth::id());
+        //$appointments = $appointments->where('auth_user_id', Auth::id())->sortBy('date')->sortBy('time');
+        $appointments = DB::table('appointments')->where('auth_user_id', Auth::id())->orderBy('date')->orderBy('time')->get();
         $klijenti = Auth::user()->clients;
 
 
         return Inertia::render('Appointments/Index', [
-            'appointments' => $appointments,
+            'appointment' => $appointments,
             'klijenti' => $klijenti,
         ]);
     }

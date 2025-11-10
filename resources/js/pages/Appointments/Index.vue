@@ -2,14 +2,13 @@
 import Button from '@/components/ui/button/Button.vue';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import Label from '@/components/ui/label/Label.vue';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Form, Head } from '@inertiajs/vue3';
-import type { DateValue } from '@internationalized/date';
-import { getLocalTimeZone, today } from '@internationalized/date';
+import { DateValue, getLocalTimeZone, Time, today } from '@internationalized/date';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
-
 // import the correct clients route or define it if missing
 import appointments from '@/routes/appointments';
 
@@ -23,7 +22,7 @@ interface Client {
 interface Appointment {
     id: number;
     date: Date;
-    time: string;
+    time: Time;
     client_id: number;
     // Add other appointment properties as needed
 }
@@ -44,6 +43,9 @@ const yearOptions = Array.from({ length: new Date().getFullYear() - 2010 }, (_, 
 const currentDate = ref(today(getLocalTimeZone())) as Ref<DateValue>;
 const hours = ref(Array.from({ length: 24 }, (_, h) => h.toString().padStart(2, '0')));
 const minutes = ref(Array.from([0, 15, 30, 45], (i) => i.toString().padStart(2, '0')));
+
+const pastAppointments = ref(props.appointment.filter((app) => new Date(`${app.date}T${app.time}`) < new Date()));
+const upcomingAppointments = ref(props.appointment.filter((app) => new Date(`${app.date}T${app.time}`) >= new Date()));
 </script>
 
 <template>
@@ -86,13 +88,58 @@ const minutes = ref(Array.from([0, 15, 30, 45], (i) => i.toString().padStart(2, 
                         </div>
                         <DialogFooter>
                             <button type="submit" :disabled="processing">
-                                {{ processing ? 'Creating...' : 'Create User' }}
+                                {{ processing ? 'Adding...' : 'Add appointment' }}
                             </button></DialogFooter
                         >
                     </Form>
                 </DialogContent>
             </Dialog>
         </header>
-        <div class="flex flex-row flex-wrap gap-4 overflow-x-auto rounded-xl p-4">lista</div>
+        <div class="p-8">
+            <Table>
+                <TableCaption>List of upcoming appointments</TableCaption>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead class="w-[140px]">Date</TableHead>
+                        <TableHead class="w-[140px]">Time</TableHead>
+                        <TableHead>Client</TableHead>
+                        <TableHead class="w-[140px]">Action</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    <TableRow v-for="appointment in upcomingAppointments" :key="appointment.id">
+                        <TableCell>{{ new Date(appointment.date).toLocaleDateString('HR') }}</TableCell>
+                        <TableCell>{{ appointment.time }}</TableCell>
+                        <TableCell>
+                            {{ klijenti.find((klijent) => klijent.id === appointment.client_id)?.first_name + ' ' + klijenti.find((klijent) => klijent.id === appointment.client_id)?.last_name }}
+                        </TableCell>
+                        <TableCell>...</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </div>
+        <div class="p-8">
+            <Table>
+                <TableCaption>List of past appointments</TableCaption>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead class="w-[140px]">Date</TableHead>
+                        <TableHead class="w-[140px]">Time</TableHead>
+                        <TableHead>Client</TableHead>
+                        <TableHead class="w-[140px]">Action</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    <TableRow v-for="appointment in pastAppointments" :key="appointment.id">
+                        <TableCell>{{ new Date(appointment.date).toLocaleDateString('HR') }}</TableCell>
+                        <TableCell>{{ appointment.time }}</TableCell>
+                        <TableCell>
+                            {{ klijenti.find((klijent) => klijent.id === appointment.client_id)?.first_name + ' ' + klijenti.find((klijent) => klijent.id === appointment.client_id)?.last_name }}
+                        </TableCell>
+                        <TableCell>...</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </div>
     </AppLayout>
 </template>

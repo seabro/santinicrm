@@ -37,6 +37,7 @@ class ClientController extends Controller
 
         return Inertia::render('Clients/Detail', [
             'klijent' => $klijent,
+            'appointments' => $klijent->appointments,
         ]);
     }
 

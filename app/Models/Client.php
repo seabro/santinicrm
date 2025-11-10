@@ -28,4 +28,10 @@ class Client extends Model
     {
         return $this->belongsTo(User::class, 'auth_user_id');
     }
+
+    // Define relationship with the Appointment model
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'client_id');  
+    }
 }
