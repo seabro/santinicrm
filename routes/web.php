@@ -24,6 +24,8 @@ Route::put('/clients/{id}/update', [ClientController::class, 'update'])->middlew
 
 Route::get('/appointments', [AppointmentController::class, 'index'])->middleware(['auth', 'verified'])->name('appointments.index');
 Route::post('/appointments/store', [AppointmentController::class, 'store'])->middleware(['auth', 'verified'])->name('appointments.store');
+Route::put('/appointments/{id}/update', [AppointmentController::class, 'update'])->middleware(['auth', 'verified'])->name('appointments.update');
+
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

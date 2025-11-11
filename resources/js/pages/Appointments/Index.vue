@@ -6,11 +6,12 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Form, Head } from '@inertiajs/vue3';
-import { DateValue, getLocalTimeZone, Time, today } from '@internationalized/date';
+import { DateValue, getLocalTimeZone, today } from '@internationalized/date';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
 // import the correct clients route or define it if missing
 import appointments from '@/routes/appointments';
+import AddNoteDialog from '../Appointments/AddNoteDialog.vue';
 
 interface Client {
     id: number;
@@ -22,8 +23,9 @@ interface Client {
 interface Appointment {
     id: number;
     date: Date;
-    time: Time;
+    time: string;
     client_id: number;
+    note: string;
     // Add other appointment properties as needed
 }
 
@@ -39,13 +41,25 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const yearOptions = Array.from({ length: new Date().getFullYear() - 2010 }, (_, index) => 2025 + index);
+//const yearOptions = Array.from({ length: new Date().getFullYear() - 2010 }, (_, index) => 2025 + index);
 const currentDate = ref(today(getLocalTimeZone())) as Ref<DateValue>;
 const hours = ref(Array.from({ length: 24 }, (_, h) => h.toString().padStart(2, '0')));
 const minutes = ref(Array.from([0, 15, 30, 45], (i) => i.toString().padStart(2, '0')));
 
 const pastAppointments = ref(props.appointment.filter((app) => new Date(`${app.date}T${app.time}`) < new Date()));
 const upcomingAppointments = ref(props.appointment.filter((app) => new Date(`${app.date}T${app.time}`) >= new Date()));
+
+const dialogOpen = ref(false);
+var selectedAppointment = {} as Appointment;
+
+const openAddNoteDialog = (appointment: Appointment) => {
+    selectedAppointment = appointment;
+    dialogOpen.value = true;
+};
+
+const closeDialog = () => {
+    dialogOpen.value = false;
+};
 </script>
 
 <template>
@@ -113,7 +127,7 @@ const upcomingAppointments = ref(props.appointment.filter((app) => new Date(`${a
                         <TableCell>
                             {{ klijenti.find((klijent) => klijent.id === appointment.client_id)?.first_name + ' ' + klijenti.find((klijent) => klijent.id === appointment.client_id)?.last_name }}
                         </TableCell>
-                        <TableCell>...</TableCell>
+                        <TableCell>.</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
@@ -136,10 +150,17 @@ const upcomingAppointments = ref(props.appointment.filter((app) => new Date(`${a
                         <TableCell>
                             {{ klijenti.find((klijent) => klijent.id === appointment.client_id)?.first_name + ' ' + klijenti.find((klijent) => klijent.id === appointment.client_id)?.last_name }}
                         </TableCell>
-                        <TableCell>...</TableCell>
+                        <TableCell>
+                            <Button @click="openAddNoteDialog(appointment)" variant="outline" size="sm">
+                                <span v-if="appointment.note">Edit</span>
+                                <span v-else> Add note</span>
+                            </Button>
+                        </TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
+
+            <AddNoteDialog :open="dialogOpen" :singleAppointment="selectedAppointment" @close="closeDialog" />
         </div>
     </AppLayout>
 </template>

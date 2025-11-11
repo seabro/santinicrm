@@ -4,9 +4,10 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
-import { Time } from '@internationalized/date';
 // import the correct clients route or define it if missing
 import clients from '@/routes/clients';
+import { ref } from 'vue';
+import AddNoteDialog from '../Appointments/AddNoteDialog.vue';
 
 interface Client {
     id: number;
@@ -25,6 +26,7 @@ interface Appointment {
     date: Date;
     time: Time;
     client_id: number;
+    note: string;
     // Add other appointment properties as needed
 }
 const props = defineProps<{
@@ -45,6 +47,18 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const pastAppointments = props.appointments.filter((app) => new Date(`${app.date}T${app.time}`) < new Date());
 const upcomingAppointments = props.appointments.filter((app) => new Date(`${app.date}T${app.time}`) >= new Date());
+
+const dialogOpen = ref(false);
+var selectedAppointment = {} as Appointment;
+
+const openAddNoteDialog = (appointment: Appointment) => {
+    selectedAppointment = appointment;
+    dialogOpen.value = true;
+};
+
+const closeDialog = () => {
+    dialogOpen.value = false;
+};
 </script>
 
 <template>
@@ -82,10 +96,14 @@ const upcomingAppointments = props.appointments.filter((app) => new Date(`${app.
                     <TableRow v-for="appointment in pastAppointments" :key="appointment.id">
                         <TableCell>{{ new Date(appointment.date).toLocaleDateString('HR') }}</TableCell>
                         <TableCell>{{ appointment.time }}</TableCell>
+                        <TableCell v-if="appointment.note"> {{ appointment.note }} </TableCell>
+                        <TableCell v-else> No note </TableCell>
                         <TableCell>
-                            {{ klijent.first_name + ' ' + klijent.last_name }}
+                            <Button @click="openAddNoteDialog(appointment)" variant="outline" size="sm">
+                                <span v-if="appointment.note">Edit</span>
+                                <span v-else> Add note</span>
+                            </Button>
                         </TableCell>
-                        <TableCell>...</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
@@ -113,6 +131,7 @@ const upcomingAppointments = props.appointments.filter((app) => new Date(`${app.
                     </TableRow>
                 </TableBody>
             </Table>
+            <AddNoteDialog :open="dialogOpen" :singleAppointment="selectedAppointment" @close="closeDialog" />
         </div>
     </AppLayout>
 </template>

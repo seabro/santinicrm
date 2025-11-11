@@ -49,4 +49,27 @@ class AppointmentController extends Controller
 
         return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
     }
+
+    public function update(Request $request, $id)
+    {
+
+        //dd($request->all());
+
+        $appointment = Appointment::findOrFail($id);
+
+        $validated = $request->validate([
+            //'client_id' => 'required|exists:clients,id',
+            //'auth_user_id' => 'required|integer|exists:users,id',
+            //'date' => 'required|date',
+            //'time' => 'required',
+            'note' => 'nullable|string',
+        ]);
+
+        $appointment->update($validated);
+
+        return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
+
+    }
+
+
 }
