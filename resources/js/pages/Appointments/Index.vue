@@ -12,6 +12,7 @@ import { ref } from 'vue';
 // import the correct clients route or define it if missing
 import appointments from '@/routes/appointments';
 import AddNoteDialog from '../Appointments/AddNoteDialog.vue';
+import FullCalendar from './FullCalendar.vue';
 
 interface Client {
     id: number;
@@ -48,6 +49,13 @@ const minutes = ref(Array.from([0, 15, 30, 45], (i) => i.toString().padStart(2, 
 
 const pastAppointments = ref(props.appointment.filter((app) => new Date(`${app.date}T${app.time}`) < new Date()));
 const upcomingAppointments = ref(props.appointment.filter((app) => new Date(`${app.date}T${app.time}`) >= new Date()));
+
+const appointmenti = ref(
+    props.appointment.map((app) => ({
+        title: props.klijenti.find((klijent) => klijent.id === app.client_id) ? `${props.klijenti.find((klijent) => klijent.id === app.client_id)?.first_name} ${props.klijenti.find((klijent) => klijent.id === app.client_id)?.last_name}` : 'Unknown Client',
+        date: app.date.toString(),
+    })),
+);
 
 const dialogOpen = ref(false);
 var selectedAppointment = {} as Appointment;
@@ -109,6 +117,11 @@ const closeDialog = () => {
                 </DialogContent>
             </Dialog>
         </header>
+
+        <div class="p-8">
+            <FullCalendar :dates="appointmenti" />
+        </div>
+
         <div class="p-8">
             <Table>
                 <TableCaption>List of upcoming appointments</TableCaption>
