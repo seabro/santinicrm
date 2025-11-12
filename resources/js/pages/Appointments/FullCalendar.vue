@@ -18,20 +18,37 @@ const props = defineProps({
 const calendarOptions = ref({
     plugins: [dayGridPlugin, interactionPlugin],
     initialView: 'dayGridMonth',
+    aspectRatio: 2,
     weekends: false,
+
     selectable: true,
+    customButtons: {
+        toggleWeekends: {
+            text: 'Toggle Weekends',
+            click: function () {
+                calendarOptions.value.weekends = !calendarOptions.value.weekends;
+            },
+        },
+    },
+    headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,dayGridWeek toggleWeekends',
+    },
     // Add more options as needed
     events: props.dates,
 });
-
-const toggleWeekends = () => {
-    calendarOptions.value.weekends = !calendarOptions.value.weekends;
-};
 </script>
 
 <template>
     <div>
-        <button @click="toggleWeekends" class="mb-4 rounded bg-blue-500 px-4 py-2 text-white">Toggle Weekends</button>
         <FullCalendar :options="calendarOptions" />
     </div>
 </template>
+
+<style>
+:root {
+    --fc-border-color: #333;
+    --fc-daygrid-event-dot-width: 5px;
+}
+</style>
