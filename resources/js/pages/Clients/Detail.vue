@@ -9,6 +9,7 @@ import clients from '@/routes/clients';
 import { Sparkles } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import AddNoteDialog from '../Appointments/AddNoteDialog.vue';
+
 interface Client {
     id: number;
     first_name: string;
@@ -25,7 +26,7 @@ interface Client {
 interface Appointment {
     id: number;
     date: Date;
-    time: Time;
+    time: string;
     client_id: number;
     note: string;
     // Add other appointment properties as needed
