@@ -6,6 +6,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
 // import the correct clients route or define it if missing
 import clients from '@/routes/clients';
+import { useForm } from '@inertiajs/vue3';
 import { Sparkles } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import AddNoteDialog from '../Appointments/AddNoteDialog.vue';
@@ -49,13 +50,32 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const pastAppointments = props.appointments.filter((app) => new Date(`${app.date}T${app.time}`) < new Date());
 const upcomingAppointments = props.appointments.filter((app) => new Date(`${app.date}T${app.time}`) >= new Date());
-
+const form = useForm({});
 const dialogOpen = ref(false);
+const loading = ref(false);
 var selectedAppointment = {} as Appointment;
 
 const openAddNoteDialog = (appointment: Appointment) => {
     selectedAppointment = appointment;
     dialogOpen.value = true;
+};
+
+const generateSummary = () => {
+    form.get(`/clients/${props.klijent.id}/aisummary`, {
+        preserveScroll: true,
+        onSuccess: () => {
+            // toast('Event has been created', {
+            //     description: 'Sunday, December 03, 2023 at 9:00 AM',
+            //     action: {
+            //         label: 'Undo',
+            //         onClick: () => console.log('Undo'),
+            //     },
+            // });
+        },
+        onError: (errors) => {
+            alert('Failed to generate summary');
+        },
+    });
 };
 
 const closeDialog = () => {
@@ -72,29 +92,42 @@ const formattedSummary = computed(() => {
 
 <template>
     <Head title="Client Detail Page" />
-
     <AppLayout :breadcrumbs="breadcrumbs">
         <header class="mb-4 flex items-center justify-end p-4">
             <Link :href="`/clients/${klijent.id}/edit`"><Button>Edit Client</Button></Link>
         </header>
 
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-            <h2>Detalji klijenta</h2>
+            <h2>{{ klijent.first_name }} {{ klijent.last_name }}</h2>
 
-            {{ klijent.first_name }} {{ klijent.last_name }} <br />
             {{ klijent.email }} <br />
             {{ klijent.phone }} <br />
             {{ klijent.date_of_birth }} <br />
-            {{ klijent.gender }} <br />
-            {{ klijent.supervisor }} <br />
             {{ klijent.association }} <br />
         </div>
 
         <div class="p-4">
-            <h4>summary</h4>
-            <Link :href="`/clients/${klijent.id}/aisummary`"
-                ><Button> <Sparkles />AI summary</Button></Link
-            >
+            <form @submit.prevent="generateSummary">
+                <Button
+                    type="submit"
+                    :disabled="form.processing"
+                    :class="{
+                        '': !form.processing,
+                        'cursor-not-allowed bg-gray-400': form.processing,
+                    }"
+                >
+                    <Sparkles />
+                    <div class="flex items-center">
+                        <svg v-if="form.processing" class="mr-3 -ml-1 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        {{ form.processing ? 'Generating Summary...' : 'Generate AI Summary' }}
+                    </div></Button
+                >
+            </form>
+
+            <Link :href="`/clients/${klijent.id}/aisummary`"></Link>
             <div v-html="formattedSummary" class="summary-detail"></div>
         </div>
 
