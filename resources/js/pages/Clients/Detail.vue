@@ -6,9 +6,9 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
 // import the correct clients route or define it if missing
 import clients from '@/routes/clients';
-import { ref } from 'vue';
+import { Sparkles } from 'lucide-vue-next';
+import { computed, ref } from 'vue';
 import AddNoteDialog from '../Appointments/AddNoteDialog.vue';
-
 interface Client {
     id: number;
     first_name: string;
@@ -17,6 +17,7 @@ interface Client {
     phone: string;
     date_of_birth: Date; // or Date, depending on how you
     gender: string;
+    summary: string;
     supervisor: string;
     association: string;
     // Add other client properties as needed
@@ -59,6 +60,13 @@ const openAddNoteDialog = (appointment: Appointment) => {
 const closeDialog = () => {
     dialogOpen.value = false;
 };
+
+const formattedSummary = computed(() => {
+    if (!props.klijent.summary) {
+        return 'No summary available.';
+    }
+    return props.klijent.summary.replace('\n\g', '<br />');
+});
 </script>
 
 <template>
@@ -79,6 +87,14 @@ const closeDialog = () => {
             {{ klijent.gender }} <br />
             {{ klijent.supervisor }} <br />
             {{ klijent.association }} <br />
+        </div>
+
+        <div class="p-4">
+            <h4>summary</h4>
+            <Link :href="`/clients/${klijent.id}/aisummary`"
+                ><Button> <Sparkles />AI summary</Button></Link
+            >
+            <div v-html="formattedSummary" class="summary-detail"></div>
         </div>
 
         <div class="p-8">
@@ -135,3 +151,11 @@ const closeDialog = () => {
         </div>
     </AppLayout>
 </template>
+<style scoped>
+.summary-detail * {
+    margin-top: 1rem;
+}
+.summary-detail li {
+    display: block;
+}
+</style>
